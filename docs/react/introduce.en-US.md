@@ -80,7 +80,7 @@ The following two ways used to load the **only components you used**, select one
 ## Size
 
 - Components are loaded on demand, in other words, components that are not imported are not packed.
-- <p><a href="https://jackyr.github.io/ant-design-analysis/" target="_blank">The size and dependency analysis</a> of `./dist/antd-mobile-extension.min.js`</p>
+- <p><a href="https://jackyr.github.io/ant-design-analysis/antd-mobile-extension@1.0.0-stats.html" target="_blank">The size and dependency analysis</a> of `./dist/antd-mobile-extension.min.js`</p>
 
 ## Environment Support
 

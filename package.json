@@ -2,7 +2,7 @@
   "name": "antd-mobile-extension",
   "version": "1.0.0-beta",
   "description": "antd-mobile扩展组件",
-  "homepage": "",
+  "homepage": "http://antd-mobile-extension.jackyrao.com",
   "keywords": [
     "ant",
     "design",
@@ -18,10 +18,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/jackyr/ant-design-mobile-extension.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/jackyr/ant-design-mobile-extension/issues"
   },
   "files": [
     "dist",

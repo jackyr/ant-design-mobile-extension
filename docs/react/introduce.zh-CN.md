@@ -80,7 +80,7 @@ import 'antd-mobile-extension/dist/antd-mobile-extension.css';  // or 'antd-mobi
 ## 体积
 
 - 按需加载：只需引入业务中需要的组件即可，未 import 进来的组件不会打包进来。
-- <p>`./dist/antd-mobile-extension.min.js`的文件<a href="https://jackyr.github.io/ant-design-analysis/" target="_blank">大小及依赖分析</a></p>
+- <p>`./dist/antd-mobile-extension.min.js`的文件<a href="https://jackyr.github.io/ant-design-analysis/antd-mobile-extension@1.0.0-stats.html" target="_blank">大小及依赖分析</a></p>
 
 ## 浏览器支持
 
