@@ -1,6 +1,6 @@
 ---
 order: 0
-title: Ant Design Mobile of React Extension
+title: Ant Design Mobile Extension
 ---
 
 `antd-mobile-extension` 是 [Ant Design Mobile](http://mobile.ant.design) 的扩展

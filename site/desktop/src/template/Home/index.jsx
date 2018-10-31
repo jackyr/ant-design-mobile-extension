@@ -60,7 +60,7 @@ class Home extends React.Component {
                     placement="bottom"
                     trigger="click"
                     content={
-                      <img className="home-qr" src="https://zos.alipayobjects.com/rmsportal/TrdkqxQcrAUcmYelQUNK.png" alt="qrcode" />
+                      <img className="home-qr" src="https://raw.githubusercontent.com/jackyr/ant-design-mobile-extension/master/qrcode.png" alt="qrcode" />
                     }
                   >
                     <Button type="primary" ghost>

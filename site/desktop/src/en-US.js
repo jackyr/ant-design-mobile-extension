@@ -6,6 +6,7 @@ module.exports = {
   messages: {
     'app.header.search': 'Search...',
     'app.header.menu.home': 'Home',
+    'app.header.menu.spec': 'Guidelines',
     'app.header.menu.components': 'Web Components',
     'app.header.menu.design': 'Specification',
     'app.header.menu.pc': 'Desktop',

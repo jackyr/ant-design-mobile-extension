@@ -5,7 +5,19 @@ timeline: true
 toc: false
 ---
 
-### 1.0.0
+`Ant Design Mobile Extension` 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
+
+---
+
+## 1.0.0
+
+`2018-10-31`
+
+- **Feature**
+
+  - 🌟 新增 `ImageUpload` 图片选择上传组件
+
+## 1.0.0
 
 `2018-06-27`
 
@@ -24,10 +36,3 @@ toc: false
 - **Enhancement**
 
   - 📝 升级Jest版本 [#2657](https://github.com/ant-design/ant-design-mobile/pull/2657)
-
-
-### 1.0.0-beta
-
-`2018-06-27`
-
-发布

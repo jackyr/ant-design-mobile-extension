@@ -4,6 +4,7 @@ import { Link } from 'bisheng/router';
 import Menu from 'antd/lib/menu';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
+import Icon from 'antd/lib/icon';
 import Article from './Article';
 import ComponentDoc from './ComponentDoc';
 import * as utils from '../../../../utils';
@@ -39,6 +40,7 @@ export default class MainContent extends React.Component {
   }
 
   getSideBarOpenKeys(nextProps) {
+    const { themeConfig } = nextProps;
     const { pathname } = nextProps.location;
     const prevModule = this.currentModule;
     this.currentModule = pathname.replace(/^\//).split('/')[1] || 'components';
@@ -48,7 +50,12 @@ export default class MainContent extends React.Component {
     const locale = utils.isZhCN(pathname) ? 'zh-CN' : 'en-US';
     if (prevModule !== this.currentModule) {
       const moduleData = getModuleData(nextProps);
-      const shouldOpenKeys = Object.keys(utils.getMenuItems(moduleData, locale));
+      const shouldOpenKeys = utils.getMenuItems(
+        moduleData,
+        locale,
+        themeConfig.categoryOrder,
+        themeConfig.typeOrder,
+      ).map(m => m.title[locale] || m.title);
       return shouldOpenKeys;
     }
     return '';
@@ -60,30 +67,31 @@ export default class MainContent extends React.Component {
   }
 
   generateMenuItem(isTop, item) {
+    const { locale } = this.context.intl;
     const key = this.fileNameToPath(item.filename);
-    let text;
-    if (isTop) {
-      text = item.title || item.chinese || item.english;
-    } else {
-      text = [
-        <span key="english">{item.title || item.english}</span>,
-        <span className="chinese" key="chinese">{item.subtitle || item.chinese}</span>,
-      ];
-    }
-    const disabled = item.disabled;
-    let url = item.filename.replace(/(\/index)?((\.zh-CN)|(\.en-US))?\.md$/i, '').toLowerCase();
-    if (item.filename.includes('zh-CN')) {
-      url = `${url}-cn`;
-    }
+    const title = item.title[locale] || item.title;
+    const text = isTop ? title : [
+      <span key="english">{title}</span>,
+      <span className="chinese" key="chinese">{item.subtitle}</span>,
+    ];
+    const { disabled } = item;
+    const url = item.filename.replace(/(\/index)?((\.zh-CN)|(\.en-US))?\.md$/i, '').toLowerCase();
     const child = !item.link ? (
-      <Link to={/^components/.test(url) ? `${url}/` : url} disabled={disabled}>
+      <Link
+        to={utils.getLocalizedPathname(/^components/.test(url) ? `${url}/` : url, locale === 'zh-CN')}
+        disabled={disabled}
+      >
         {text}
-      </Link>
-    ) : (
-      <a href={item.link} target="_blank" rel="noopener noreferrer" disabled={disabled}>
-        {text}
-      </a>
-    );
+      </Link>) :
+      (<a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        disabled={disabled}
+        className="menu-item-link-outside"
+      >
+        {text} <Icon type="export" />
+      </a>);
 
     return (
       <Menu.Item key={key.toLowerCase()} disabled={disabled}>
@@ -96,52 +104,36 @@ export default class MainContent extends React.Component {
     return level !== 'topLevel';
   }
 
-  generateSubMenuItems(obj) {
-    const topLevel = (obj.topLevel || []).map(this.generateMenuItem.bind(this, true));
-    const itemGroups = Object.keys(obj).filter(this.isNotTopLevel)
-      .sort((a, b) =>
-        this.props.themeConfig.categoryOrder.indexOf(a) - this.props.themeConfig.categoryOrder.indexOf(b))
-      .map((type, index) => {
-        const groupItems = obj[type].sort((a, b) => (
-          (a.title || a.english).charCodeAt(0) - (b.title || b.english).charCodeAt(0)
-        )).map(this.generateMenuItem.bind(this, false));
-        return (
-          <Menu.ItemGroup title={type} key={index}>
-            {groupItems}
-          </Menu.ItemGroup>
-        );
-      });
-    return [...topLevel, ...itemGroups];
-  }
-
-  getModuleData() {
-    const props = this.props;
-    const pathname = props.location.pathname;
-    const moduleName = /^components/.test(pathname) ?
-      'components' : pathname.split('/').slice(0, 2).join('/');
-    const moduleData = moduleName === 'components' || moduleName.includes('changelog') || moduleName === 'docs/react' ?
-      [...props.picked.components, ...props.picked['docs/react'], ...props.picked.changelog].filter(item => item.meta.filename.includes(this.context.intl.locale)) :
-      props.picked[moduleName];
-
-    return moduleData;
-  }
-
   getMenuItems() {
-    const moduleData = this.getModuleData();
-    const menuItems = utils.getMenuItems(moduleData);
-    const topLevel = this.generateSubMenuItems(menuItems.topLevel);
-    const subMenu = Object.keys(menuItems).filter(this.isNotTopLevel)
-      .sort((a, b) =>
-        this.props.themeConfig.categoryOrder.indexOf(a) - this.props.themeConfig.categoryOrder.indexOf(b))
-      .map((category) => {
-        const subMenuItems = this.generateSubMenuItems(menuItems[category]);
+    const { locale } = this.context.intl;
+    const { themeConfig } = this.props;
+    const moduleData = getModuleData(this.props);
+    const menuItems = utils.getMenuItems(
+      moduleData,
+      locale,
+      themeConfig.categoryOrder,
+      themeConfig.typeOrder,
+    );
+    return menuItems.map((menuItem) => {
+      if (menuItem.children) {
         return (
-          <SubMenu title={<h4>{category}</h4>} key={category}>
-            {subMenuItems}
+          <SubMenu title={<h4>{menuItem.title}</h4>} key={menuItem.title}>
+            {menuItem.children.map((child) => {
+              if (child.type === 'type') {
+                return (
+                  <Menu.ItemGroup title={locale === 'zh-CN' ? themeConfig.typeChinese[child.title] : child.title} key={child.title}>
+                    {child.children.sort((a, b) =>
+                      a.title.charCodeAt(0) - b.title.charCodeAt(0)).map(leaf => this.generateMenuItem(false, leaf))}
+                  </Menu.ItemGroup>
+                );
+              }
+              return this.generateMenuItem(false, child);
+            })}
           </SubMenu>
         );
-      });
-    return [...topLevel, ...subMenu];
+      }
+      return this.generateMenuItem(true, menuItem);
+    });
   }
 
   flattenMenu(menu) {

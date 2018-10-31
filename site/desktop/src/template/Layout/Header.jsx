@@ -24,7 +24,7 @@ export default class Header extends React.Component {
   };
 
   componentDidMount() {
-    // this.context.router.listen(this.handleHideMenu);
+    this.context.router.listen(this.handleHideMenu);
     const { searchInput } = this;
     /* eslint-disable global-require */
     require('enquire.js')
@@ -44,11 +44,21 @@ export default class Header extends React.Component {
     /* eslint-enable global-require */
   }
 
-  handleMenuIconClick = (e) => {
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
+  handleShowMenu = () => {
     this.setState({
       menuVisible: true,
+    });
+  }
+
+  handleHideMenu = () => {
+    this.setState({
+      menuVisible: false,
+    });
+  }
+
+  onMenuVisibleChange = (visible) => {
+    this.setState({
+      menuVisible: visible,
     });
   }
 
@@ -161,16 +171,16 @@ export default class Header extends React.Component {
             <FormattedMessage id="app.header.menu.home" />
           </Link>
         </Menu.Item>
+        {/* <Menu.Item key="docs/spec">
+          <Link to={utils.getLocalizedPathname('/docs/spec/button', isZhCN)}>
+            <FormattedMessage id="app.header.menu.spec" />
+          </Link>
+        </Menu.Item> */}
         <Menu.Item key="docs/react">
           <Link to={utils.getLocalizedPathname('/docs/react/introduce', isZhCN)}>
             <FormattedMessage id="app.header.menu.components" />
           </Link>
         </Menu.Item>
-        {/* <Menu.Item key="pc">
-          <a href="//ant.design">
-            <FormattedMessage id="app.header.menu.pc" />
-          </a>
-        </Menu.Item> */}
       </Menu>,
     ];
 

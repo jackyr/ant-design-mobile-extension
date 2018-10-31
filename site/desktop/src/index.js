@@ -49,6 +49,7 @@ module.exports = {
     },
     /* eslint-enable consistent-return */
     'docs/react': pickerGenerator('react'),
+    'docs/spec': pickerGenerator('spec'),
   },
   plugins: [
     'bisheng-plugin-description',
@@ -65,6 +66,9 @@ module.exports = {
       component: homeTmpl,
     }, {
       path: '/docs/react/:children',
+      component: contentTmpl,
+    }, {
+      path: '/docs/spec/:children',
       component: contentTmpl,
     }, {
       path: 'changelog',

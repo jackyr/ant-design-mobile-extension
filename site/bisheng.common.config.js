@@ -100,17 +100,25 @@ module.exports = {
     indexDemos: ['drawer'], // for kitchen 这些组件每个 demo 都需要全屏展示，首页直接放其各个 demo 链接
     subListDemos: ['list-view', 'pull-to-refresh', 'tab-bar'], // for kitchen 这些组件每个 demo 都需要全屏展示，首页直接放其各个 demo 链接
     hashSpliter: '-demo-', // for kitchen URL 中记录到 hash 里的特殊标记
-    categoryOrder: [
-      'Layout',
-      'Navigation',
-      'Data Entry',
-      'Data Display',
-      'Feedback',
-      'Gesture',
-      'Combination',
-      'Other',
-    ],
-    cateChinese: {
+    categoryOrder: {
+      'Ant Design Mobile Extension': 0,
+      设计理念与原则: 1,
+      'Concept And Principle': 1,
+      移动设计规范: 2,
+      'Mobile Patterns': 2,
+      Components: 100,
+    },
+    typeOrder: {
+      Layout: 0,
+      Navigation: 1,
+      'Data Entry': 2,
+      'Data Display': 3,
+      Feedback: 4,
+      Gesture: 5,
+      Combination: 6,
+      Other: 7,
+    },
+    typeChinese: {
       Layout: '布局',
       Navigation: '导航',
       'Data Entry': '数据录入',

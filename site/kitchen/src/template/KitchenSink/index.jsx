@@ -140,7 +140,7 @@ export default class App extends React.Component {
           <div className="am-demo-bd">
             {
               Object.keys(lists)
-                .sort((a, b) => config.categoryOrder.indexOf(a) - config.categoryOrder.indexOf(b))
+                .sort((a, b) => Object.keys(config.typeOrder).indexOf(a) - Object.keys(config.typeOrder).indexOf(b))
                 .map((cate, index) => (lists[cate].length ? (
                   <List
                     key={`${cate}-${index}`}
@@ -149,7 +149,7 @@ export default class App extends React.Component {
                         onClick={() => this.onOpenChange(index)}
                         className="am-demo-category"
                       >
-                        <div className="am-demo-category-name">{appLocale.locale === 'en-US' ? cate : `${config.cateChinese[cate]} ${cate}`}</div>
+                        <div className="am-demo-category-name">{appLocale.locale === 'en-US' ? cate : `${config.typeChinese[cate]} ${cate}`}</div>
                         <div className="am-demo-category-arrow"><span><Icon type="down" /></span></div>
                       </div>
                     )}
